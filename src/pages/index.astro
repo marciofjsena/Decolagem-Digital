@@ -131,8 +131,10 @@ import { SITE, HERO, APRENDIZADOS, PARA_QUEM, SOBRE } from '../config';
     z-index: 0;
   }
 
-  /* Escurece de cima (leve) para baixo (quase preto), com um toque de
-     laranja no encontro com o resto da pagina, para amarrar a marca. */
+  /* A foto "nasce" do preto em cima e "morre" no preto embaixo: as duas
+     bordas escurecem ate o preto solido, deixando um janelao claro no
+     meio (rosto + emblema do ITA). Assim nao ha nenhuma linha reta de
+     separacao. Um toque de laranja no rodape amarra a marca. */
   .hero-scrim {
     position: absolute;
     inset: 0;
@@ -141,9 +143,12 @@ import { SITE, HERO, APRENDIZADOS, PARA_QUEM, SOBRE } from '../config';
       radial-gradient(120% 55% at 50% 118%, rgba(255, 106, 0, 0.35) 0%, transparent 60%),
       linear-gradient(
         to bottom,
-        rgba(0, 0, 0, 0.15) 0%,
-        rgba(0, 0, 0, 0.35) 40%,
-        rgba(0, 0, 0, 0.82) 72%,
+        var(--preto) 0%,
+        rgba(0, 0, 0, 0.72) 7%,
+        rgba(0, 0, 0, 0.12) 22%,
+        rgba(0, 0, 0, 0.12) 40%,
+        rgba(0, 0, 0, 0.6) 64%,
+        rgba(0, 0, 0, 0.92) 84%,
         var(--preto) 100%
       );
   }
