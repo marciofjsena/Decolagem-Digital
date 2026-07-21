@@ -275,6 +275,19 @@ const { id, textoBotao = 'Entre para a comunidade no WhatsApp' } = Astro.props;
         const resultado = await resposta.json().catch(() => null);
 
         if (resposta.ok && resultado?.ok) {
+          // O link vem da planilha (aba Configuracao, celula B1). Se por
+          // algum motivo nao vier, usamos o link gravado na pagina.
+          const destino: string =
+            typeof resultado.link === 'string' &&
+            resultado.link.startsWith('https://chat.whatsapp.com/')
+              ? resultado.link
+              : linkWhatsApp;
+
+          const linkSocorro = form.querySelector<HTMLAnchorElement>('[data-socorro-link]');
+          if (linkSocorro) {
+            linkSocorro.href = destino;
+          }
+
           // Segunda acao do botao: so agora, com o lead ja salvo, mandamos
           // a pessoa para a Comunidade. Na mesma aba de proposito — abrir
           // aba nova depois de uma espera e bloqueado no iPhone.
@@ -286,7 +299,7 @@ const { id, textoBotao = 'Entre para a comunidade no WhatsApp' } = Astro.props;
             socorro.hidden = false;
           }, ESPERA_ATE_SOCORRO);
 
-          location.href = linkWhatsApp;
+          location.href = destino;
           return;
         }
 

@@ -7,8 +7,8 @@ export const prerender = false;
 
 const EMAIL_VALIDO = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-function responder(ok: boolean, mensagem: string, status: number) {
-  return new Response(JSON.stringify({ ok, mensagem }), {
+function responder(ok: boolean, mensagem: string, status: number, link?: string) {
+  return new Response(JSON.stringify({ ok, mensagem, link }), {
     status,
     headers: { 'Content-Type': 'application/json' },
   });
@@ -66,14 +66,20 @@ export const POST: APIRoute = async ({ request }) => {
       signal: AbortSignal.timeout(20000),
     });
 
-    const resultado = (await resposta.json()) as { ok?: boolean; mensagem?: string };
+    const resultado = (await resposta.json()) as {
+      ok?: boolean;
+      mensagem?: string;
+      link?: string;
+    };
 
     if (!resultado.ok) {
       console.error('Planilha recusou o cadastro:', resultado.mensagem);
       return responder(false, 'Não conseguimos salvar seu cadastro. Tente de novo.', 502);
     }
 
-    return responder(true, 'ok', 200);
+    // O link da Comunidade vem da propria planilha (aba Configuracao, B1),
+    // para o Marcio poder troca-lo sem republicar o site.
+    return responder(true, 'ok', 200, resultado.link);
   } catch (erro) {
     console.error('Falha ao falar com a planilha:', erro);
     return responder(false, 'Não conseguimos salvar seu cadastro. Tente de novo.', 502);
