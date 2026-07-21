@@ -1,6 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Formulario from '../components/Formulario.astro';
+import logo from '../assets/logo.png';
+import fotoMarcio from '../assets/marcio-ita.jpg';
 import { SITE, HERO, APRENDIZADOS, PARA_QUEM, SOBRE } from '../config';
 ---
 
@@ -8,8 +11,21 @@ import { SITE, HERO, APRENDIZADOS, PARA_QUEM, SOBRE } from '../config';
   <main>
     {/* ---- 1. Chamada + formulario logo de cara ---- */}
     <section class="topo">
+      <Image
+        class="logo"
+        src={logo}
+        alt="Projeto Decolagem Digital — construa, escale e fature com IA"
+        widths={[280, 560]}
+        sizes="280px"
+        loading="eager"
+        fetchpriority="high"
+      />
+
       <span class="selo">{HERO.selo}</span>
-      <h1>{HERO.chamada}</h1>
+      <h1>
+        <span class="metal">{HERO.chamadaInicio}</span>{' '}
+        <span class="fogo">{HERO.chamadaDestaque}</span>
+      </h1>
       <p class="apoio">{HERO.apoio}</p>
 
       <Formulario id="form-topo" />
@@ -37,7 +53,7 @@ import { SITE, HERO, APRENDIZADOS, PARA_QUEM, SOBRE } from '../config';
     {/* ---- 3. Para quem e ---- */}
     <section>
       <h2>Para quem é</h2>
-      <ul class="lista">
+      <ul class="lista lista-risco">
         {PARA_QUEM.map((item) => <li>{item}</li>)}
       </ul>
     </section>
@@ -45,9 +61,21 @@ import { SITE, HERO, APRENDIZADOS, PARA_QUEM, SOBRE } from '../config';
     {/* ---- 4. Quem esta por tras ---- */}
     <section>
       <h2>Quem vai te ensinar</h2>
-      <div class="caixa">
-        <h3>{SOBRE.nome}</h3>
-        {SOBRE.texto.map((linha) => <p class="apoio">{linha}</p>)}
+      <div class="caixa autoridade">
+        <div class="moldura">
+          <Image
+            class="retrato"
+            src={fotoMarcio}
+            alt={`${SOBRE.nome}, na formatura de Engenharia Aeronáutica no ITA`}
+            widths={[640, 1280]}
+            sizes="(min-width: 40rem) 60rem, 170vw"
+            loading="lazy"
+          />
+        </div>
+        <div class="autoridade-texto">
+          <h3>{SOBRE.nome}</h3>
+          {SOBRE.texto.map((linha) => <p class="apoio">{linha}</p>)}
+        </div>
       </div>
     </section>
 
@@ -77,9 +105,51 @@ import { SITE, HERO, APRENDIZADOS, PARA_QUEM, SOBRE } from '../config';
     margin-top: 0;
   }
 
+  .logo {
+    display: block;
+    width: 13.5rem;
+    max-width: 62%;
+    height: auto;
+    margin: 0 auto 1.25rem;
+  }
+
+  /* A foto vira o topo da caixa, sem moldura entre ela e a borda */
+  .autoridade {
+    padding: 0;
+    overflow: hidden;
+  }
+
+  /* A foto original e larga e ele aparece pequeno, com muita cadeira vazia
+     embaixo. A moldura recorta: aproxima 1,8x e sobe o enquadramento,
+     mantendo o rosto e o emblema do ITA e cortando o chao. */
+  .moldura {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 5 / 4;
+    overflow: hidden;
+    border-bottom: 1px solid var(--borda);
+  }
+
+  .retrato {
+    position: absolute;
+    display: block;
+    width: 180%;
+    height: auto;
+    left: -40%;
+    top: -18%;
+  }
+
+  .autoridade-texto {
+    padding: 1.25rem;
+  }
+
+  .autoridade-texto p:last-child {
+    margin-bottom: 0;
+  }
+
   .micro {
     font-size: 0.8125rem;
-    color: var(--cor-suave);
+    color: var(--suave);
     text-align: center;
     margin: 0.875rem 0 0;
   }

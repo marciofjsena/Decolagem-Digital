@@ -21,7 +21,10 @@ export const TEXTO_CONSENTIMENTO =
   'Aceito receber comunicações sobre o lançamento do curso Decolagem Digital e concordo com a Política de Privacidade.';
 
 export const HERO = {
-  chamada: 'Aprenda a escalar um negócio digital usando IA',
+  // A chamada e quebrada em duas partes so para o efeito visual:
+  // a primeira sai em prata metalico, a segunda em laranja incandescente.
+  chamadaInicio: 'Aprenda a escalar um negócio digital',
+  chamadaDestaque: 'usando IA',
   apoio:
     'Um método prático para criar, vender e escalar produtos digitais — mesmo que você nunca tenha programado.',
   selo: 'Lista de espera aberta',

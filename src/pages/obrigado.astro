@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
+import logo from '../assets/logo.png';
 import { SITE } from '../config';
 ---
 
@@ -10,6 +12,14 @@ import { SITE } from '../config';
 >
   <main>
     <section class="topo">
+      <Image
+        class="logo"
+        src={logo}
+        alt="Projeto Decolagem Digital"
+        widths={[200, 400]}
+        sizes="200px"
+        loading="eager"
+      />
       <p class="marca">✓ Cadastro confirmado</p>
       <h1>Pronto! Seu lugar na lista está garantido.</h1>
       <p class="apoio">
@@ -50,10 +60,18 @@ import { SITE } from '../config';
     margin-top: 0;
   }
 
+  .logo {
+    display: block;
+    width: 11rem;
+    max-width: 55%;
+    height: auto;
+    margin: 0 auto 1.5rem;
+  }
+
   .marca {
     font-size: 0.875rem;
-    font-weight: 600;
-    color: #067647;
+    font-weight: 700;
+    color: var(--sucesso);
     margin-bottom: 0.5rem;
   }
 
@@ -66,22 +84,28 @@ import { SITE } from '../config';
     margin-bottom: 0.5rem;
   }
 
+  /* Verde do WhatsApp: o visitante reconhece a acao antes de ler */
   .botao {
     display: block;
     text-decoration: none;
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: 1.0625rem;
+    font-weight: 800;
     padding: 0.9375rem 1rem;
-    min-height: 3rem;
+    min-height: 3.25rem;
     border-radius: 0.5rem;
-    background: var(--cor-destaque);
-    color: var(--cor-destaque-texto);
+    background: linear-gradient(180deg, #2ee06f 0%, #17b354 100%);
+    color: #04240f;
     margin-top: 1rem;
+    box-shadow: 0 10px 24px -12px rgba(23, 179, 84, 0.85);
+  }
+
+  .botao:active {
+    transform: translateY(1px);
   }
 
   .micro {
     font-size: 0.8125rem;
-    color: var(--cor-suave);
+    color: var(--suave);
     margin: 0.75rem 0 0;
   }
 

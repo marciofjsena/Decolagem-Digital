@@ -18,6 +18,7 @@ const {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{titulo}</title>
     <meta name="description" content={descricao} />
@@ -33,20 +34,31 @@ const {
 
 <style is:global>
   /* ---------------------------------------------------------------
-     ESTILO PROVISORIO — sera substituido na Etapa 5 (design),
-     quando entrarem a logo, a paleta de cores e as imagens.
-     Por enquanto: neutro, leve e legivel no celular.
+     PALETA — extraida da logo do Projeto Decolagem Digital.
+     Preto absoluto de fundo, laranja incandescente como acao,
+     prata metalico para os titulos.
      --------------------------------------------------------------- */
 
   :root {
-    --cor-fundo: #ffffff;
-    --cor-texto: #1a1a1a;
-    --cor-suave: #5c5c5c;
-    --cor-borda: #dcdcdc;
-    --cor-destaque: #1a1a1a;
-    --cor-destaque-texto: #ffffff;
-    --cor-erro: #b42318;
-    --cor-caixa: #f6f6f6;
+    /* fundos */
+    --preto: #000000;
+    --preto-carvao: #0b0b0c;
+    --preto-caixa: #131315;
+    --borda: #26262a;
+
+    /* laranjas da logo */
+    --laranja: #ff6a00;
+    --laranja-claro: #ffa51f;
+    --ambar: #ffd37a;
+
+    /* textos */
+    --texto: #f2f2f3;
+    --prata: #c9ccd1;
+    --suave: #8e9198;
+
+    --erro: #ff8a7a;
+    --sucesso: #48d17a;
+
     --largura: 34rem;
   }
 
@@ -56,12 +68,13 @@ const {
 
   html {
     -webkit-text-size-adjust: 100%;
+    background: var(--preto);
   }
 
   body {
     margin: 0;
-    background: var(--cor-fundo);
-    color: var(--cor-texto);
+    background: var(--preto);
+    color: var(--texto);
     font-family:
       system-ui,
       -apple-system,
@@ -70,6 +83,17 @@ const {
       sans-serif;
     font-size: 1.0625rem;
     line-height: 1.6;
+    /* Brilho de "decolagem". Comeca abaixo do topo de proposito: assim a
+       area da logo fica preto puro e o fundo preto dela nao vira um
+       quadrado visivel. */
+    background-image: radial-gradient(
+      130% 45% at 50% 30%,
+      rgba(255, 106, 0, 0.13) 0%,
+      rgba(255, 106, 0, 0.035) 45%,
+      transparent 72%
+    );
+    background-repeat: no-repeat;
+    background-attachment: fixed;
   }
 
   main {
@@ -79,25 +103,30 @@ const {
   }
 
   section {
-    margin-top: 3rem;
+    margin-top: 3.5rem;
   }
 
   h1 {
-    font-size: 1.875rem;
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    margin: 0 0 0.75rem;
+    font-size: 2rem;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    margin: 0 0 0.875rem;
+    font-weight: 800;
   }
 
   h2 {
-    font-size: 1.25rem;
-    line-height: 1.3;
+    font-size: 1.375rem;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
     margin: 0 0 1rem;
+    font-weight: 700;
   }
 
   h3 {
     font-size: 1rem;
     margin: 0 0 0.25rem;
+    font-weight: 700;
+    color: var(--texto);
   }
 
   p {
@@ -105,24 +134,55 @@ const {
   }
 
   a {
-    color: inherit;
+    color: var(--laranja-claro);
+  }
+
+  strong {
+    color: var(--texto);
+  }
+
+  /* Titulos com acabamento metalico, como na logo */
+  .metal {
+    background: linear-gradient(180deg, #ffffff 0%, #c9ccd1 55%, #8e9198 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .fogo {
+    background: linear-gradient(180deg, var(--ambar) 0%, var(--laranja) 70%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 
   .apoio {
-    color: var(--cor-suave);
+    color: var(--suave);
   }
 
   .selo {
-    display: inline-block;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--cor-suave);
-    border: 1px solid var(--cor-borda);
+    color: var(--ambar);
+    border: 1px solid rgba(255, 106, 0, 0.35);
+    background: rgba(255, 106, 0, 0.08);
     border-radius: 999px;
-    padding: 0.25rem 0.75rem;
+    padding: 0.3125rem 0.8125rem;
     margin-bottom: 1.25rem;
+  }
+
+  .selo::before {
+    content: '';
+    width: 0.4375rem;
+    height: 0.4375rem;
+    border-radius: 50%;
+    background: var(--laranja);
+    box-shadow: 0 0 8px var(--laranja);
   }
 
   .lista {
@@ -132,8 +192,8 @@ const {
   }
 
   .lista li {
-    padding: 0.75rem 0;
-    border-bottom: 1px solid var(--cor-borda);
+    padding: 0.9375rem 0;
+    border-bottom: 1px solid var(--borda);
   }
 
   .lista li:last-child {
@@ -142,13 +202,31 @@ const {
 
   .lista p {
     margin: 0;
-    color: var(--cor-suave);
+    color: var(--suave);
     font-size: 0.9375rem;
   }
 
+  /* Lista com marcador de "risco de propulsao" laranja */
+  .lista-risco li {
+    position: relative;
+    padding-left: 1.5rem;
+  }
+
+  .lista-risco li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 1.5rem;
+    width: 0.75rem;
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, transparent, var(--laranja));
+  }
+
   .caixa {
-    background: var(--cor-caixa);
-    border-radius: 0.75rem;
+    background: var(--preto-caixa);
+    border: 1px solid var(--borda);
+    border-radius: 0.875rem;
     padding: 1.25rem;
   }
 
@@ -156,17 +234,21 @@ const {
     max-width: var(--largura);
     margin: 0 auto;
     padding: 2rem 1.25rem 3rem;
-    border-top: 1px solid var(--cor-borda);
-    color: var(--cor-suave);
+    border-top: 1px solid var(--borda);
+    color: var(--suave);
     font-size: 0.875rem;
+  }
+
+  footer a {
+    color: var(--prata);
   }
 
   @media (min-width: 40rem) {
     h1 {
-      font-size: 2.375rem;
+      font-size: 2.625rem;
     }
     main {
-      padding-top: 3.5rem;
+      padding-top: 3rem;
     }
   }
 </style>
