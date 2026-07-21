@@ -29,10 +29,6 @@ import { SITE, HERO, APRENDIZADOS, PARA_QUEM, SOBRE } from '../config';
       <p class="apoio">{HERO.apoio}</p>
 
       <Formulario id="form-topo" />
-
-      <p class="micro">
-        Sem spam. Você recebe apenas os avisos do lançamento e pode sair quando quiser.
-      </p>
     </section>
 
     {/* ---- 2. O que voce vai aprender ---- */}
@@ -86,7 +82,7 @@ import { SITE, HERO, APRENDIZADOS, PARA_QUEM, SOBRE } from '../config';
         As vagas da primeira turma são limitadas. Quem está na lista é avisado antes de
         todo mundo.
       </p>
-      <Formulario id="form-fim" textoBotao="Entrar na lista de espera" />
+      <Formulario id="form-fim" />
     </section>
   </main>
 
@@ -147,10 +143,4 @@ import { SITE, HERO, APRENDIZADOS, PARA_QUEM, SOBRE } from '../config';
     margin-bottom: 0;
   }
 
-  .micro {
-    font-size: 0.8125rem;
-    color: var(--suave);
-    text-align: center;
-    margin: 0.875rem 0 0;
-  }
 </style>

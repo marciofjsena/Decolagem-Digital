@@ -1,15 +1,23 @@
 ---
-import { TEXTO_CONSENTIMENTO } from '../config';
+import { TEXTO_CONSENTIMENTO, SITE } from '../config';
 
 interface Props {
   id: string;
   textoBotao?: string;
 }
 
-const { id, textoBotao = 'Quero ser avisado em primeira mão' } = Astro.props;
+const { id, textoBotao = 'Entre para a comunidade no WhatsApp' } = Astro.props;
 ---
 
-<form class="formulario" data-formulario id={id} novalidate>
+{/* O link da Comunidade viaja num atributo porque o codigo que roda no
+    navegador (la embaixo) nao enxerga as variaveis daqui de cima. */}
+<form
+  class="formulario"
+  data-formulario
+  data-whatsapp={SITE.linkWhatsApp}
+  id={id}
+  novalidate
+>
   <label>
     <span>Seu nome</span>
     <input
@@ -50,7 +58,19 @@ const { id, textoBotao = 'Quero ser avisado em primeira mão' } = Astro.props;
 
   <button type="submit">{textoBotao}</button>
 
+  {/* Deixa explicito que tambem havera e-mail: evita a pessoa estranhar
+      depois e marcar a mensagem como spam. */}
+  <p class="aviso-email">Você também será avisado por e-mail sobre o lançamento.</p>
+
   <p class="recado" data-recado role="status" aria-live="polite"></p>
+
+  {/* Rede de seguranca: so aparece se o WhatsApp nao abrir sozinho. */}
+  <p class="socorro" data-socorro hidden>
+    Não abriu?
+    <a data-socorro-link href={SITE.linkWhatsApp} target="_blank" rel="noopener">
+      Toque aqui para entrar na Comunidade
+    </a>
+  </p>
 </form>
 
 <style>
@@ -169,15 +189,42 @@ const { id, textoBotao = 'Quero ser avisado em primeira mão' } = Astro.props;
   .recado[data-tipo='erro'] {
     color: var(--erro);
   }
+
+  .recado[data-tipo='sucesso'] {
+    color: var(--sucesso);
+  }
+
+  .aviso-email {
+    margin: -0.375rem 0 0;
+    font-size: 0.75rem;
+    color: var(--suave);
+    text-align: center;
+  }
+
+  .socorro {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--suave);
+    text-align: center;
+  }
+
+  .socorro a {
+    color: var(--laranja-claro);
+  }
 </style>
 
 <script>
-  const TEXTO_BOTAO_ENVIANDO = 'Enviando...';
+  const TEXTO_BOTAO_SALVANDO = 'Salvando...';
+  const TEXTO_BOTAO_ABRINDO = 'Abrindo a Comunidade...';
+  // Se o WhatsApp nao assumir nesse tempo, mostramos o link de socorro.
+  const ESPERA_ATE_SOCORRO = 2500;
 
   document.querySelectorAll<HTMLFormElement>('[data-formulario]').forEach((form) => {
     const botao = form.querySelector('button')!;
     const recado = form.querySelector<HTMLParagraphElement>('[data-recado]')!;
+    const socorro = form.querySelector<HTMLParagraphElement>('[data-socorro]')!;
     const textoOriginal = botao.textContent ?? '';
+    const linkWhatsApp = form.dataset.whatsapp ?? '';
 
     function mostrarErro(mensagem: string) {
       recado.textContent = mensagem;
@@ -210,7 +257,7 @@ const { id, textoBotao = 'Quero ser avisado em primeira mão' } = Astro.props;
       }
 
       botao.disabled = true;
-      botao.textContent = TEXTO_BOTAO_ENVIANDO;
+      botao.textContent = TEXTO_BOTAO_SALVANDO;
 
       try {
         const resposta = await fetch('/api/inscrever', {
@@ -228,7 +275,18 @@ const { id, textoBotao = 'Quero ser avisado em primeira mão' } = Astro.props;
         const resultado = await resposta.json().catch(() => null);
 
         if (resposta.ok && resultado?.ok) {
-          location.href = '/obrigado';
+          // Segunda acao do botao: so agora, com o lead ja salvo, mandamos
+          // a pessoa para a Comunidade. Na mesma aba de proposito — abrir
+          // aba nova depois de uma espera e bloqueado no iPhone.
+          botao.textContent = TEXTO_BOTAO_ABRINDO;
+          recado.textContent = 'Cadastro confirmado. Levando você para a Comunidade...';
+          recado.dataset.tipo = 'sucesso';
+
+          setTimeout(() => {
+            socorro.hidden = false;
+          }, ESPERA_ATE_SOCORRO);
+
+          location.href = linkWhatsApp;
           return;
         }
 
