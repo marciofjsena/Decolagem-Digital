@@ -3,31 +3,47 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Formulario from '../components/Formulario.astro';
 import logo from '../assets/logo.png';
-import fotoMarcio from '../assets/marcio-ita.jpg';
+import fotoHero from '../assets/marcio-hero.jpg';
 import { SITE, HERO, APRENDIZADOS, PARA_QUEM, SOBRE } from '../config';
 ---
 
 <Base>
   <main>
-    {/* ---- 1. Chamada + formulario logo de cara ---- */}
-    <section class="topo">
+    {/* ---- 1. Logo + foto de fundo + chamada ---- */}
+    <div class="topo-logo">
       <Image
         class="logo"
         src={logo}
         alt="Projeto Decolagem Digital — construa, escale e fature com IA"
         widths={[280, 560]}
-        sizes="280px"
+        sizes="220px"
         loading="eager"
         fetchpriority="high"
       />
+    </div>
 
-      <span class="selo">{HERO.selo}</span>
-      <h1>
-        <span class="metal">{HERO.chamadaInicio}</span>{' '}
-        <span class="fogo">{HERO.chamadaDestaque}</span>
-      </h1>
-      <p class="apoio">{HERO.apoio}</p>
+    <section class="hero">
+      <Image
+        class="hero-foto"
+        src={fotoHero}
+        alt={`${SOBRE.nome}, na formatura de Engenharia Aeronáutica no ITA`}
+        widths={[720, 1080, 1440]}
+        sizes="100vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <div class="hero-scrim"></div>
+      <div class="hero-texto">
+        <span class="selo">{HERO.selo}</span>
+        <h1>
+          <span class="metal">{HERO.chamadaInicio}</span>{' '}
+          <span class="fogo">{HERO.chamadaDestaque}</span>
+        </h1>
+        <p class="apoio">{HERO.apoio}</p>
+      </div>
+    </section>
 
+    <section class="topo-form">
       <Formulario id="form-topo" />
     </section>
 
@@ -57,21 +73,9 @@ import { SITE, HERO, APRENDIZADOS, PARA_QUEM, SOBRE } from '../config';
     {/* ---- 4. Quem esta por tras ---- */}
     <section>
       <h2>Quem vai te ensinar</h2>
-      <div class="caixa autoridade">
-        <div class="moldura">
-          <Image
-            class="retrato"
-            src={fotoMarcio}
-            alt={`${SOBRE.nome}, na formatura de Engenharia Aeronáutica no ITA`}
-            widths={[640, 1280]}
-            sizes="(min-width: 40rem) 60rem, 170vw"
-            loading="lazy"
-          />
-        </div>
-        <div class="autoridade-texto">
-          <h3>{SOBRE.nome}</h3>
-          {SOBRE.texto.map((linha) => <p class="apoio">{linha}</p>)}
-        </div>
+      <div class="caixa">
+        <h3>{SOBRE.nome}</h3>
+        {SOBRE.texto.map((linha) => <p class="apoio">{linha}</p>)}
       </div>
     </section>
   </main>
@@ -87,50 +91,92 @@ import { SITE, HERO, APRENDIZADOS, PARA_QUEM, SOBRE } from '../config';
 </Base>
 
 <style>
-  .topo {
-    margin-top: 0;
+  .topo-logo {
+    text-align: center;
   }
 
   .logo {
     display: block;
-    width: 13.5rem;
-    max-width: 62%;
+    width: 11rem;
+    max-width: 52%;
     height: auto;
-    margin: 0 auto 1.25rem;
+    margin: 0 auto 1rem;
   }
 
-  /* A foto vira o topo da caixa, sem moldura entre ela e a borda */
-  .autoridade {
-    padding: 0;
-    overflow: hidden;
-  }
-
-  /* A foto original e larga e ele aparece pequeno, com muita cadeira vazia
-     embaixo. A moldura recorta: aproxima 1,8x e sobe o enquadramento,
-     mantendo o rosto e o emblema do ITA e cortando o chao. */
-  .moldura {
+  /* ---- HERO com a foto de fundo ----
+     A secao ocupa a largura toda da tela (rompe a coluna central) e
+     traz a foto como fundo. Um degrade escuro por cima escurece a parte
+     de baixo o suficiente para o texto branco ser legivel e para a foto
+     "derreter" no preto da pagina. */
+  .hero {
     position: relative;
-    width: 100%;
-    aspect-ratio: 5 / 4;
+    /* rompe a coluna central e ocupa 100% da largura da tela */
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    min-height: 78vh;
+    display: flex;
+    align-items: flex-end;
     overflow: hidden;
-    border-bottom: 1px solid var(--borda);
   }
 
-  .retrato {
+  .hero-foto {
     position: absolute;
-    display: block;
-    width: 180%;
-    height: auto;
-    left: -40%;
-    top: -18%;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* mostra o rosto e o emblema do ITA; corta as cadeiras de baixo */
+    object-position: center 18%;
+    z-index: 0;
   }
 
-  .autoridade-texto {
-    padding: 1.25rem;
+  /* Escurece de cima (leve) para baixo (quase preto), com um toque de
+     laranja no encontro com o resto da pagina, para amarrar a marca. */
+  .hero-scrim {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      radial-gradient(120% 55% at 50% 118%, rgba(255, 106, 0, 0.35) 0%, transparent 60%),
+      linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.15) 0%,
+        rgba(0, 0, 0, 0.35) 40%,
+        rgba(0, 0, 0, 0.82) 72%,
+        var(--preto) 100%
+      );
   }
 
-  .autoridade-texto p:last-child {
+  .hero-texto {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: var(--largura);
+    margin: 0 auto;
+    padding: 0 1.25rem 1.75rem;
+  }
+
+  .hero-texto h1 {
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.6);
+  }
+
+  .hero-texto .apoio {
+    color: var(--prata);
     margin-bottom: 0;
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.7);
   }
 
+  .topo-form {
+    margin-top: 1.5rem;
+  }
+
+  @media (min-width: 40rem) {
+    .hero {
+      min-height: 70vh;
+    }
+    .hero-foto {
+      object-position: center 15%;
+    }
+  }
 </style>
