@@ -1,0 +1,121 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE, TEXTO_CONSENTIMENTO } from '../config';
+
+// RASCUNHO. Precisa de revisao de um advogado antes do lancamento.
+const atualizadoEm = '21 de julho de 2026';
+---
+
+<Base
+  titulo="Política de Privacidade — Decolagem Digital"
+  descricao="Como tratamos os dados de quem entra na lista de espera."
+>
+  <main>
+    <section class="topo">
+      <h1>Política de Privacidade</h1>
+      <p class="apoio">Última atualização: {atualizadoEm}</p>
+
+      <h2>Quem é o responsável pelos seus dados</h2>
+      <p>
+        Os dados coletados nesta página são tratados por <strong>{SITE.nomeCurso}</strong>.
+        Para qualquer assunto relacionado aos seus dados, o contato é
+        <a href={`mailto:${SITE.emailContato}`}>{SITE.emailContato}</a>.
+      </p>
+
+      <h2>Quais dados coletamos</h2>
+      <ul class="lista">
+        <li>Seu nome</li>
+        <li>Seu e-mail</li>
+        <li>A data e a hora do cadastro</li>
+        <li>O registro de que você marcou a caixa de consentimento e o texto que aceitou</li>
+      </ul>
+      <p>
+        Não coletamos CPF, telefone, dados de pagamento nem qualquer dado sensível nesta
+        página.
+      </p>
+
+      <h2>Para que usamos</h2>
+      <p>
+        Usamos seu nome e e-mail exclusivamente para avisar você sobre o lançamento do
+        curso {SITE.nomeCurso} e enviar conteúdos relacionados a ele. Não vendemos, não
+        alugamos e não compartilhamos seus dados com terceiros para fins comerciais.
+      </p>
+
+      <h2>Com que base legal</h2>
+      <p>
+        Tratamos seus dados com base no seu <strong>consentimento</strong>, nos termos do
+        artigo 7º, inciso I, da Lei nº 13.709/2018 (LGPD). O texto que você aceitou foi:
+      </p>
+      <blockquote>{TEXTO_CONSENTIMENTO}</blockquote>
+
+      <h2>Onde ficam guardados</h2>
+      <p>
+        Seus dados são armazenados em uma planilha do Google (Google Sheets), em conta
+        controlada por nós. O site é hospedado na Vercel. Ambos os serviços podem manter
+        servidores fora do Brasil.
+      </p>
+
+      <h2>Por quanto tempo guardamos</h2>
+      <p>
+        Mantemos seus dados enquanto durar o interesse no lançamento ou até você pedir a
+        remoção — o que acontecer primeiro. Após a remoção, o dado é apagado da nossa base.
+      </p>
+
+      <h2>Seus direitos</h2>
+      <p>A LGPD garante que você pode, a qualquer momento:</p>
+      <ul class="lista">
+        <li>Confirmar se tratamos dados seus e acessá-los</li>
+        <li>Corrigir dados incompletos ou desatualizados</li>
+        <li>Pedir a exclusão dos seus dados</li>
+        <li>Revogar o consentimento que você deu</li>
+      </ul>
+      <p>
+        Para exercer qualquer um deles, escreva para
+        <a href={`mailto:${SITE.emailContato}`}>{SITE.emailContato}</a>. Respondemos em até
+        15 dias.
+      </p>
+
+      <h2>Cookies</h2>
+      <p>
+        Esta página não usa cookies de rastreamento, nem pixels de publicidade, nem
+        ferramentas de análise de comportamento.
+      </p>
+
+      <h2>Mudanças nesta política</h2>
+      <p>
+        Se algo mudar, atualizamos esta página e a data no topo. Mudanças relevantes serão
+        comunicadas por e-mail a quem estiver na lista.
+      </p>
+
+      <p class="voltar"><a href="/">Voltar para a página inicial</a></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>{SITE.nomeCurso}</p>
+  </footer>
+</Base>
+
+<style>
+  .topo {
+    margin-top: 0;
+  }
+
+  h2 {
+    margin-top: 2rem;
+    font-size: 1.125rem;
+  }
+
+  blockquote {
+    margin: 0 0 1rem;
+    padding: 0.875rem 1rem;
+    background: var(--cor-caixa);
+    border-radius: 0.5rem;
+    font-size: 0.9375rem;
+    color: var(--cor-suave);
+  }
+
+  .voltar {
+    margin-top: 2.5rem;
+  }
+</style>

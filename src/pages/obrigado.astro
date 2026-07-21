@@ -1,0 +1,92 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config';
+---
+
+<Base
+  titulo="Cadastro confirmado — Decolagem Digital"
+  descricao="Seu lugar na lista de espera está garantido."
+  noindex={true}
+>
+  <main>
+    <section class="topo">
+      <p class="marca">✓ Cadastro confirmado</p>
+      <h1>Pronto! Seu lugar na lista está garantido.</h1>
+      <p class="apoio">
+        Você será avisado por e-mail assim que as inscrições abrirem. Mas tem uma coisa
+        mais rápida que o e-mail:
+      </p>
+
+      <div class="caixa destaque">
+        <h2>Entre na Comunidade do WhatsApp</h2>
+        <p class="apoio">
+          É lá que os avisos saem primeiro — junto com bastidores da criação do curso e
+          conteúdos que não vão para o e-mail.
+        </p>
+        <a class="botao" href={SITE.linkWhatsApp} target="_blank" rel="noopener">
+          Entrar na Comunidade agora
+        </a>
+        <p class="micro">Grupo silencioso: só eu envio mensagens.</p>
+      </div>
+
+      <p class="micro centro">
+        <a href="/">Voltar para a página inicial</a>
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <p>{SITE.nomeCurso}</p>
+    <p>
+      <a href="/privacidade">Política de Privacidade</a>
+      &nbsp;·&nbsp;
+      <a href={`mailto:${SITE.emailContato}`}>{SITE.emailContato}</a>
+    </p>
+  </footer>
+</Base>
+
+<style>
+  .topo {
+    margin-top: 0;
+  }
+
+  .marca {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #067647;
+    margin-bottom: 0.5rem;
+  }
+
+  .destaque {
+    margin-top: 2rem;
+    text-align: center;
+  }
+
+  .destaque h2 {
+    margin-bottom: 0.5rem;
+  }
+
+  .botao {
+    display: block;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.9375rem 1rem;
+    min-height: 3rem;
+    border-radius: 0.5rem;
+    background: var(--cor-destaque);
+    color: var(--cor-destaque-texto);
+    margin-top: 1rem;
+  }
+
+  .micro {
+    font-size: 0.8125rem;
+    color: var(--cor-suave);
+    margin: 0.75rem 0 0;
+  }
+
+  .centro {
+    text-align: center;
+    margin-top: 2rem;
+  }
+</style>

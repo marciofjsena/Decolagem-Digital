@@ -1,0 +1,172 @@
+---
+import { SITE } from '../config';
+
+interface Props {
+  titulo?: string;
+  descricao?: string;
+  noindex?: boolean;
+}
+
+const {
+  titulo = SITE.titulo,
+  descricao = SITE.descricao,
+  noindex = false,
+} = Astro.props;
+---
+
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{titulo}</title>
+    <meta name="description" content={descricao} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descricao} />
+    <meta property="og:type" content="website" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  /* ---------------------------------------------------------------
+     ESTILO PROVISORIO — sera substituido na Etapa 5 (design),
+     quando entrarem a logo, a paleta de cores e as imagens.
+     Por enquanto: neutro, leve e legivel no celular.
+     --------------------------------------------------------------- */
+
+  :root {
+    --cor-fundo: #ffffff;
+    --cor-texto: #1a1a1a;
+    --cor-suave: #5c5c5c;
+    --cor-borda: #dcdcdc;
+    --cor-destaque: #1a1a1a;
+    --cor-destaque-texto: #ffffff;
+    --cor-erro: #b42318;
+    --cor-caixa: #f6f6f6;
+    --largura: 34rem;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: var(--cor-fundo);
+    color: var(--cor-texto);
+    font-family:
+      system-ui,
+      -apple-system,
+      'Segoe UI',
+      Roboto,
+      sans-serif;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+
+  main {
+    max-width: var(--largura);
+    margin: 0 auto;
+    padding: 2rem 1.25rem 4rem;
+  }
+
+  section {
+    margin-top: 3rem;
+  }
+
+  h1 {
+    font-size: 1.875rem;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin: 0 0 0.75rem;
+  }
+
+  h2 {
+    font-size: 1.25rem;
+    line-height: 1.3;
+    margin: 0 0 1rem;
+  }
+
+  h3 {
+    font-size: 1rem;
+    margin: 0 0 0.25rem;
+  }
+
+  p {
+    margin: 0 0 1rem;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  .apoio {
+    color: var(--cor-suave);
+  }
+
+  .selo {
+    display: inline-block;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--cor-suave);
+    border: 1px solid var(--cor-borda);
+    border-radius: 999px;
+    padding: 0.25rem 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .lista {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .lista li {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--cor-borda);
+  }
+
+  .lista li:last-child {
+    border-bottom: none;
+  }
+
+  .lista p {
+    margin: 0;
+    color: var(--cor-suave);
+    font-size: 0.9375rem;
+  }
+
+  .caixa {
+    background: var(--cor-caixa);
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+  }
+
+  footer {
+    max-width: var(--largura);
+    margin: 0 auto;
+    padding: 2rem 1.25rem 3rem;
+    border-top: 1px solid var(--cor-borda);
+    color: var(--cor-suave);
+    font-size: 0.875rem;
+  }
+
+  @media (min-width: 40rem) {
+    h1 {
+      font-size: 2.375rem;
+    }
+    main {
+      padding-top: 3.5rem;
+    }
+  }
+</style>

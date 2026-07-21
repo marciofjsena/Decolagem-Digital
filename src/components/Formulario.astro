@@ -1,0 +1,224 @@
+---
+import { TEXTO_CONSENTIMENTO } from '../config';
+
+interface Props {
+  id: string;
+  textoBotao?: string;
+}
+
+const { id, textoBotao = 'Quero ser avisado em primeira mão' } = Astro.props;
+---
+
+<form class="formulario" data-formulario id={id} novalidate>
+  <label>
+    <span>Seu nome</span>
+    <input
+      type="text"
+      name="nome"
+      autocomplete="name"
+      required
+      maxlength="80"
+      placeholder="Como você quer ser chamado"
+    />
+  </label>
+
+  <label>
+    <span>Seu melhor e-mail</span>
+    <input
+      type="email"
+      name="email"
+      autocomplete="email"
+      inputmode="email"
+      required
+      maxlength="120"
+      placeholder="voce@email.com"
+    />
+  </label>
+
+  {/* Campo invisivel. Pessoas nao veem; robos preenchem e sao descartados. */}
+  <div class="armadilha" aria-hidden="true">
+    <label>
+      Não preencha este campo
+      <input type="text" name="website" tabindex="-1" autocomplete="off" />
+    </label>
+  </div>
+
+  <label class="consentimento">
+    <input type="checkbox" name="consentimento" required />
+    <span>{TEXTO_CONSENTIMENTO}</span>
+  </label>
+
+  <button type="submit">{textoBotao}</button>
+
+  <p class="recado" data-recado role="status" aria-live="polite"></p>
+</form>
+
+<style>
+  .formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background: var(--cor-caixa);
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+  }
+
+  label > span {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.375rem;
+  }
+
+  input[type='text'],
+  input[type='email'] {
+    width: 100%;
+    /* 1rem evita que o iPhone de zoom automatico ao focar o campo */
+    font-size: 1rem;
+    font-family: inherit;
+    padding: 0.8125rem 0.875rem;
+    border: 1px solid var(--cor-borda);
+    border-radius: 0.5rem;
+    background: #fff;
+    color: inherit;
+  }
+
+  input:focus-visible {
+    outline: 2px solid var(--cor-destaque);
+    outline-offset: 1px;
+  }
+
+  .armadilha {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .consentimento {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    font-size: 0.875rem;
+    line-height: 1.45;
+    color: var(--cor-suave);
+    cursor: pointer;
+  }
+
+  .consentimento input {
+    /* alvo grande o suficiente para o dedo no celular */
+    width: 1.25rem;
+    height: 1.25rem;
+    margin: 0.125rem 0 0;
+    flex-shrink: 0;
+  }
+
+  button {
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.9375rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    background: var(--cor-destaque);
+    color: var(--cor-destaque-texto);
+    cursor: pointer;
+    /* 44px minimo recomendado para toque */
+    min-height: 3rem;
+  }
+
+  button[disabled] {
+    opacity: 0.6;
+    cursor: progress;
+  }
+
+  .recado {
+    margin: 0;
+    font-size: 0.875rem;
+    min-height: 1.25rem;
+  }
+
+  .recado:empty {
+    min-height: 0;
+  }
+
+  .recado[data-tipo='erro'] {
+    color: var(--cor-erro);
+  }
+</style>
+
+<script>
+  const TEXTO_BOTAO_ENVIANDO = 'Enviando...';
+
+  document.querySelectorAll<HTMLFormElement>('[data-formulario]').forEach((form) => {
+    const botao = form.querySelector('button')!;
+    const recado = form.querySelector<HTMLParagraphElement>('[data-recado]')!;
+    const textoOriginal = botao.textContent ?? '';
+
+    function mostrarErro(mensagem: string) {
+      recado.textContent = mensagem;
+      recado.dataset.tipo = 'erro';
+    }
+
+    function limparRecado() {
+      recado.textContent = '';
+      delete recado.dataset.tipo;
+    }
+
+    form.addEventListener('submit', async (evento) => {
+      evento.preventDefault();
+      limparRecado();
+
+      const dados = new FormData(form);
+      const nome = String(dados.get('nome') ?? '').trim();
+      const email = String(dados.get('email') ?? '').trim();
+      const consentimento = dados.get('consentimento') === 'on';
+      const armadilha = String(dados.get('website') ?? '');
+
+      if (!nome) {
+        return mostrarErro('Escreva seu nome.');
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return mostrarErro('Confira o e-mail: parece que falta algo.');
+      }
+      if (!consentimento) {
+        return mostrarErro('Marque a caixinha de consentimento para continuar.');
+      }
+
+      botao.disabled = true;
+      botao.textContent = TEXTO_BOTAO_ENVIANDO;
+
+      try {
+        const resposta = await fetch('/api/inscrever', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            nome,
+            email,
+            consentimento,
+            armadilha,
+            origem: new URLSearchParams(location.search).get('origem') ?? '',
+          }),
+        });
+
+        const resultado = await resposta.json().catch(() => null);
+
+        if (resposta.ok && resultado?.ok) {
+          location.href = '/obrigado';
+          return;
+        }
+
+        mostrarErro(
+          resultado?.mensagem ??
+            'Não conseguimos enviar agora. Tente novamente em instantes.',
+        );
+      } catch {
+        mostrarErro('Sem conexão. Confira sua internet e tente de novo.');
+      }
+
+      botao.disabled = false;
+      botao.textContent = textoOriginal;
+    });
+  });
+</script>

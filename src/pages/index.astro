@@ -1,0 +1,86 @@
+---
+import Base from '../layouts/Base.astro';
+import Formulario from '../components/Formulario.astro';
+import { SITE, HERO, APRENDIZADOS, PARA_QUEM, SOBRE } from '../config';
+---
+
+<Base>
+  <main>
+    {/* ---- 1. Chamada + formulario logo de cara ---- */}
+    <section class="topo">
+      <span class="selo">{HERO.selo}</span>
+      <h1>{HERO.chamada}</h1>
+      <p class="apoio">{HERO.apoio}</p>
+
+      <Formulario id="form-topo" />
+
+      <p class="micro">
+        Sem spam. Você recebe apenas os avisos do lançamento e pode sair quando quiser.
+      </p>
+    </section>
+
+    {/* ---- 2. O que voce vai aprender ---- */}
+    <section>
+      <h2>O que você vai aprender</h2>
+      <ul class="lista">
+        {
+          APRENDIZADOS.map((item) => (
+            <li>
+              <h3>{item.titulo}</h3>
+              <p>{item.texto}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    {/* ---- 3. Para quem e ---- */}
+    <section>
+      <h2>Para quem é</h2>
+      <ul class="lista">
+        {PARA_QUEM.map((item) => <li>{item}</li>)}
+      </ul>
+    </section>
+
+    {/* ---- 4. Quem esta por tras ---- */}
+    <section>
+      <h2>Quem vai te ensinar</h2>
+      <div class="caixa">
+        <h3>{SOBRE.nome}</h3>
+        {SOBRE.texto.map((linha) => <p class="apoio">{linha}</p>)}
+      </div>
+    </section>
+
+    {/* ---- 5. Formulario de novo, para quem rolou ate aqui ---- */}
+    <section>
+      <h2>Entre na lista de espera</h2>
+      <p class="apoio">
+        As vagas da primeira turma são limitadas. Quem está na lista é avisado antes de
+        todo mundo.
+      </p>
+      <Formulario id="form-fim" textoBotao="Entrar na lista de espera" />
+    </section>
+  </main>
+
+  <footer>
+    <p>{SITE.nomeCurso}</p>
+    <p>
+      <a href="/privacidade">Política de Privacidade</a>
+      &nbsp;·&nbsp;
+      <a href={`mailto:${SITE.emailContato}`}>{SITE.emailContato}</a>
+    </p>
+  </footer>
+</Base>
+
+<style>
+  .topo {
+    margin-top: 0;
+  }
+
+  .micro {
+    font-size: 0.8125rem;
+    color: var(--cor-suave);
+    text-align: center;
+    margin: 0.875rem 0 0;
+  }
+</style>
