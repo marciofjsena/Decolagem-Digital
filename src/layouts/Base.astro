@@ -141,12 +141,25 @@ const {
     color: var(--texto);
   }
 
-  /* Titulos com acabamento metalico, como na logo */
+  /* Titulos com acabamento cromado, como as letras "DECOLAGEM" da logo:
+     claro em cima, uma faixa de brilho no meio e escuro embaixo, dando
+     a impressao de metal polido. */
   .metal {
-    background: linear-gradient(180deg, #ffffff 0%, #c9ccd1 55%, #8e9198 100%);
+    background: linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #d5d9df 20%,
+      #9ba1ab 42%,
+      #f4f6f8 52%,
+      #aeb4bd 60%,
+      #767c86 82%,
+      #cfd4db 100%
+    );
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+    /* leve relevo escuro para dar profundidade ao metal */
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.45));
   }
 
   .fogo {

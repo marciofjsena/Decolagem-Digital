@@ -31,7 +31,7 @@ export const HERO = {
 
 export const APRENDIZADOS = [
   {
-    titulo: 'Claude Code na prática',
+    titulo: 'Aprenda na prática',
     texto: 'Como usar IA para criar seus próprios apps e produtos, do zero.',
   },
   {
@@ -58,7 +58,7 @@ export const PARA_QUEM = [
 ];
 
 export const SOBRE = {
-  nome: 'Marcio Sena',
+  nome: 'Márcio Sena',
   texto: [
     'Engenheiro Aeronáutico formado pelo ITA.',
     'Criador do Ciência Divertida.',
