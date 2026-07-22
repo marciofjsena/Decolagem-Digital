@@ -18,7 +18,7 @@ export const SITE = {
  * texto novo — os antigos continuam com o texto que a pessoa realmente viu.
  */
 export const TEXTO_CONSENTIMENTO =
-  'Aceito receber comunicações sobre o lançamento do curso Decolagem Digital e concordo com a Política de Privacidade.';
+  'Aceito receber comunicações sobre o lançamento e concordo com a Política de Privacidade.';
 
 export const HERO = {
   // A chamada e quebrada em duas partes so para o efeito visual:
