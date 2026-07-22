@@ -58,10 +58,6 @@ const { id, textoBotao = 'Entre para a comunidade no WhatsApp' } = Astro.props;
 
   <button type="submit">{textoBotao}</button>
 
-  {/* Deixa explicito que tambem havera e-mail: evita a pessoa estranhar
-      depois e marcar a mensagem como spam. */}
-  <p class="aviso-email">Você também será avisado por e-mail sobre o lançamento.</p>
-
   <p class="recado" data-recado role="status" aria-live="polite"></p>
 
   {/* Rede de seguranca: so aparece se o WhatsApp nao abrir sozinho. */}
@@ -192,13 +188,6 @@ const { id, textoBotao = 'Entre para a comunidade no WhatsApp' } = Astro.props;
 
   .recado[data-tipo='sucesso'] {
     color: var(--sucesso);
-  }
-
-  .aviso-email {
-    margin: -0.375rem 0 0;
-    font-size: 0.75rem;
-    color: var(--suave);
-    text-align: center;
   }
 
   .socorro {

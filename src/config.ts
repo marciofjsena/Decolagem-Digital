@@ -23,14 +23,17 @@ export const TEXTO_CONSENTIMENTO =
 export const HERO = {
   // A chamada e quebrada em duas partes so para o efeito visual:
   // a primeira sai em prata metalico, a segunda em laranja incandescente.
-  chamadaInicio: 'Aprenda a escalar um negócio digital',
+  chamadaInicio: 'Aprenda do zero a criar e escalar um negócio digital',
   chamadaDestaque: 'usando IA',
   apoio:
     'Um método prático para criar, vender e escalar produtos digitais — mesmo que você nunca tenha programado.',
-  selo: 'Lista de espera aberta',
 };
 
 export const APRENDIZADOS = [
+  {
+    titulo: 'Claude Code na prática',
+    texto: 'Como usar IA para criar seus próprios apps e produtos, do zero.',
+  },
   {
     titulo: 'Marketing que atrai',
     texto: 'Como construir uma audiência que confia em você antes de comprar.',
@@ -40,12 +43,9 @@ export const APRENDIZADOS = [
     texto: 'Estruturas de oferta e lançamento que convertem sem forçar a barra.',
   },
   {
-    titulo: 'Claude Code na prática',
-    texto: 'Como usar IA para criar seus próprios apps e produtos, do zero.',
-  },
-  {
     titulo: 'Tráfego pago',
-    texto: 'Como colocar dinheiro na frente das pessoas certas e medir o retorno.',
+    texto:
+      'Aprenda a vender usando o poder das ferramentas de anúncios — sem precisar aparecer.',
   },
 ];
 
@@ -54,6 +54,7 @@ export const PARA_QUEM = [
   'Quem já vende algo e quer escalar usando IA',
   'Quem tem uma ideia de app mas acha que precisa aprender a programar',
   'Quem está cansado de curso teórico e quer método aplicado',
+  'Quem quer liberdade geográfica e financeira',
 ];
 
 export const SOBRE = {
