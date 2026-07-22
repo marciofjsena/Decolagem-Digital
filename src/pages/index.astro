@@ -2,14 +2,26 @@
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Formulario from '../components/Formulario.astro';
-import logo from '../assets/logo-transparente.png';
+import logo from '../assets/logo.png';
 import fotoHero from '../assets/marcio-hero.jpg';
 import { SITE, HERO, APRENDIZADOS, PARA_QUEM, SOBRE } from '../config';
 ---
 
 <Base>
   <main>
-    {/* ---- 1. Foto de fundo com a logo integrada + chamada ---- */}
+    {/* ---- 1. Logo + foto de fundo + chamada ---- */}
+    <div class="topo-logo">
+      <Image
+        class="logo"
+        src={logo}
+        alt="Projeto Decolagem Digital — construa, escale e fature com IA"
+        widths={[280, 560]}
+        sizes="220px"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+
     <section class="hero">
       <Image
         class="hero-foto"
@@ -21,17 +33,6 @@ import { SITE, HERO, APRENDIZADOS, PARA_QUEM, SOBRE } from '../config';
         fetchpriority="high"
       />
       <div class="hero-scrim"></div>
-
-      <Image
-        class="hero-logo"
-        src={logo}
-        alt="Projeto Decolagem Digital — construa, escale e fature com IA"
-        widths={[280, 560]}
-        sizes="220px"
-        loading="eager"
-        fetchpriority="high"
-      />
-
       <div class="hero-texto">
         <span class="selo">{HERO.selo}</span>
         <h1>
@@ -90,20 +91,16 @@ import { SITE, HERO, APRENDIZADOS, PARA_QUEM, SOBRE } from '../config';
 </Base>
 
 <style>
-  /* Logo agora fica DENTRO da foto, no topo, integrada a cena.
-     O drop-shadow cria um halo escuro sutil que garante a leitura
-     mesmo sobre a parte azul-clara do telao. */
-  .hero-logo {
-    position: absolute;
-    z-index: 2;
-    top: 1.5rem;
-    left: 50%;
-    transform: translateX(-50%);
+  .topo-logo {
+    text-align: center;
+  }
+
+  .logo {
+    display: block;
     width: 11rem;
-    max-width: 50%;
+    max-width: 52%;
     height: auto;
-    filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.55))
-      drop-shadow(0 0 22px rgba(0, 0, 0, 0.45));
+    margin: 0 auto 1rem;
   }
 
   /* ---- HERO com a foto de fundo ----
@@ -147,11 +144,11 @@ import { SITE, HERO, APRENDIZADOS, PARA_QUEM, SOBRE } from '../config';
       linear-gradient(
         to bottom,
         var(--preto) 0%,
-        rgba(0, 0, 0, 0.7) 8%,
-        rgba(0, 0, 0, 0.5) 22%,
-        rgba(0, 0, 0, 0.18) 45%,
-        rgba(0, 0, 0, 0.28) 62%,
-        rgba(0, 0, 0, 0.72) 78%,
+        rgba(0, 0, 0, 0.72) 7%,
+        rgba(0, 0, 0, 0.12) 22%,
+        rgba(0, 0, 0, 0.12) 40%,
+        rgba(0, 0, 0, 0.6) 64%,
+        rgba(0, 0, 0, 0.92) 84%,
         var(--preto) 100%
       );
   }
